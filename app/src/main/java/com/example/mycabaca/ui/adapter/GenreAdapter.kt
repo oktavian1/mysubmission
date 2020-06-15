@@ -2,6 +2,7 @@ package com.example.mycabaca.ui.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,8 @@ class GenreAdapter(private val genre : MutableList<Genre>): RecyclerView.Adapter
             itemView.name.text = genre.title
             itemView.cvGenre.setOnClickListener {
                 val i = Intent(itemView.context, GenreActivity::class.java).apply{
-                    putExtra(GenreActivity.EXTRA_GENRE, genre.id)
+                    putExtra(GenreActivity.EXTRA_GENRE, genre.id.toString())
+                    Log.d("click", genre.id.toString())
                 }
                 itemView.context.startActivity(i)
             }

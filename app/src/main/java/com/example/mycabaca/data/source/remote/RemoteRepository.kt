@@ -6,9 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mycabaca.api.ApiClient
 import com.example.mycabaca.data.source.DataSource
 import com.example.mycabaca.data.source.remote.response.book.BookResponse
+import com.example.mycabaca.data.source.remote.response.book.DetailResponse
+import com.example.mycabaca.data.source.remote.response.book.Result
 import com.example.mycabaca.data.source.remote.response.book.ResultItem
 import com.example.mycabaca.data.source.remote.response.genre.Genre
 import com.example.mycabaca.data.source.remote.response.genre.GenreResponse
+import com.example.mycabaca.data.source.remote.response.writer.ResultWriter
+//import com.example.mycabaca.data.source.remote.response.writer.ResultWriter
+import com.example.mycabaca.data.source.remote.response.writer.WriterResponse
 import com.example.mycabaca.di.ApiError
 import com.example.mycabaca.di.Either
 import com.example.mycabaca.di.Injection
@@ -59,20 +64,58 @@ object RemoteRepository: DataSource {
         return liveData
     }
 
-    override fun getDetailGenre(id: String): LiveData<Either<ResultItem>> {
-        val liveData = MutableLiveData<Either<ResultItem>>()
+    override fun getDetailGenre(id: String): LiveData<Either<List<ResultItem>>> {
+        val liveData = MutableLiveData<Either<List<ResultItem>>>()
 
-        api.getDetailGenre(id).enqueue(object : Callback<ResultItem>{
-            override fun onResponse(call: Call<ResultItem>, response: Response<ResultItem>) {
+        api.getDetailGenre(id).enqueue(object : Callback<BookResponse>{
+            override fun onResponse(call: Call<BookResponse>, response: Response<BookResponse>) {
                 if (response!=null && response.isSuccessful){
-                    liveData.value = Either.success(response.body())
+                    liveData.value = Either.success(response.body()?.result)
                 }else{
                     liveData.value = Either.error(ApiError.DETAILGENRE, null)
                 }
             }
 
-            override fun onFailure(call: Call<ResultItem>, t: Throwable) {
+            override fun onFailure(call: Call<BookResponse>, t: Throwable) {
                 liveData.value = Either.error(ApiError.DETAILGENRE, null)
+            }
+        })
+        return liveData
+    }
+
+    override fun getDetail(id: String): LiveData<Either<Result>> {
+        val liveData = MutableLiveData<Either<Result>>()
+
+        api.getDetailBook(id).enqueue(object : Callback<DetailResponse>{
+            override fun onResponse(call: Call<DetailResponse>, response: Response<DetailResponse>) {
+                if (response!=null && response.isSuccessful){
+                    liveData.value = Either.success(response.body()?.result)
+                }else{
+                    liveData.value = Either.error(ApiError.DETAILBOOK, null)
+                }
+            }
+
+            override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
+                liveData.value = Either.error(ApiError.DETAILBOOK, null)
+            }
+        })
+        return liveData
+    }
+
+    override fun getWriter(id: String): LiveData<Either<ResultWriter>> {
+        val liveData = MutableLiveData<Either<ResultWriter>>()
+
+        api.getReviewer(id).enqueue(object : Callback<WriterResponse>{
+            override fun onResponse(call: Call<WriterResponse>, response: Response<WriterResponse>) {
+                if (response!=null && response.isSuccessful){
+                    liveData.value = Either.success(response.body()?.result)
+                }else{
+                    liveData.value = Either.error(ApiError.DETAILBOOK, null)
+                }
+            }
+
+            override fun onFailure(call: Call<WriterResponse>, t: Throwable) {
+
             }
         })
         return liveData

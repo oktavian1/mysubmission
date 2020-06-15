@@ -5,4 +5,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="list_genre">List Genre</string>
     <string name="new_update_book">New Update Book</string>
+    <string name="naruto">Naruto</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="writed_by">Writed By</string>
 </resources>

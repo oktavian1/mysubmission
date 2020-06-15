@@ -1,5 +1,7 @@
 package com.example.mycabaca.ui.adapter
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mycabaca.R
 import com.example.mycabaca.data.source.remote.response.book.ResultItem
-import kotlinx.android.synthetic.main.new_book.view.*
+import com.example.mycabaca.ui.dashboard.DetailActivity
+import kotlinx.android.synthetic.main.genre_all_item.*
+import kotlinx.android.synthetic.main.genre_all_item.view.*
 
 class GenreAllAdapter(private val list: MutableList<ResultItem>): RecyclerView.Adapter<GenreAllAdapter.ViewHolder>() {
 
@@ -39,7 +43,17 @@ class GenreAllAdapter(private val list: MutableList<ResultItem>): RecyclerView.A
 
             Glide.with(itemView.context)
                 .load(url + book.coverUrl+"&"+ api)
-                .into(itemView.imageView)
+                .into(itemView.imageAll)
+
+            Log.d("ass", book.writerByWriterId?.id.toString())
+
+            itemView.cvALlGenre.setOnClickListener {
+                val i = Intent(itemView.context, DetailActivity::class.java).apply{
+                    putExtra(DetailActivity.EXTRA_ID, book.id.toString())
+                }
+                itemView.context.startActivity(i)
+            }
+
         }
 
 

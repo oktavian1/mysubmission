@@ -1,5 +1,7 @@
 package com.example.mycabaca.ui.adapter
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.example.mycabaca.R
 import com.example.mycabaca.data.source.remote.response.book.ResultItem
 import com.example.mycabaca.data.source.remote.response.genre.Genre
+import com.example.mycabaca.ui.dashboard.DetailActivity
+import com.example.mycabaca.ui.dashboard.GenreActivity
 import kotlinx.android.synthetic.main.genre_item.view.*
 import kotlinx.android.synthetic.main.new_book.view.*
 
@@ -41,6 +45,14 @@ class NewBookAdapter(private val book : MutableList<ResultItem>): RecyclerView.A
             Glide.with(itemView.context)
                 .load(url + book.coverUrl+"&"+ api)
                 .into(itemView.imageView)
+
+            itemView.cvNewBook.setOnClickListener {
+                val i = Intent(itemView.context, DetailActivity::class.java).apply{
+                    putExtra(DetailActivity.EXTRA_ID, book.id.toString())
+                }
+                itemView.context.startActivity(i)
+            }
+
         }
 
     }

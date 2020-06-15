@@ -14,16 +14,8 @@ class GenreViewModel(app: Application):AndroidViewModel(app)  {
 
     private val getUpdateNewBook = repo.getBook()
 
-    private lateinit var id: String
-
-    fun selectedGenre(id: String){
-        this.id = id
-    }
-
-//    private val getDetailGenre = repo.getDetailGenre(id)
-
     fun getGenre() = getGenre
     fun getBook() = getUpdateNewBook
-//    fun getGenreAll() = getDetailGenre
+
 
 }
